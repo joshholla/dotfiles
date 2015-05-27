@@ -222,6 +222,19 @@ fi
 ## ------------------------------
 ## -- 3) User-customized code  --
 ## ------------------------------
+alias ComeAsYouAre="nvm use 0.12.4"
+
 
 ## Define any user-specific variables you want here.
 source ~/.bashrc_custom
+
+
+
+
+
+
+
+
+
+
+
