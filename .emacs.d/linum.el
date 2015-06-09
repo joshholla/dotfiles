@@ -190,3 +190,6 @@ and you have to scroll or press C-l to update the numbers."
 
 (provide 'linum)
 ;;; linum.el ends here
+
+
+;; Trying to wrap my head around the elisp required to edit these config files.
