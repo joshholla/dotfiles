@@ -223,6 +223,8 @@ fi
 ## -- 3) User-customized code  --
 ## ------------------------------
 alias ComeAsYouAre="nvm use 0.12.4"
+npm -g install js-beautify
+npm -g install tern
 
 
 ## Define any user-specific variables you want here.

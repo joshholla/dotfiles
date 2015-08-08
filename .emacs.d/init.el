@@ -5,6 +5,13 @@
 ;; -- Global Settings --
 ;; ---------------------
 (add-to-list 'load-path "~/.emacs.d")
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(package-initialize)
+(setq url-http-attempt-keepalives nil)
 (require 'cl)
 (require 'ido)
 (require 'ffap)
@@ -76,4 +83,54 @@
 (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
 (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
 
-;coming soon - snippets and autocompletion
+;; We're going to install Tern, YASnippets, auto-complete and js-beautify
+(add-to-list 'load-path
+	    "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1) 
+
+(defvar josh-packages
+  '(auto-complete web-beautify markdown-mode)
+  "A list of packages to be verified at launch")
+
+(defun josh-packages-installed-p ()
+  (loop for p in josh-packages
+	when (not (package-installed-p p)) do (return nil)
+finally (return t)))
+
+(unless (josh-packages-installed-p)
+  ;; Check for new packages ( package versions )
+  (message "%s" "Refreshing the package database...")
+  (package-refresh-contents)
+  (message "%s" " done. ")
+  ;; install the missing packages
+  (dolist (p josh-packages)
+    (when (not (package-installed-p p))
+      (package-install p))))
+
+(provide 'josh-packages)
+
+(eval-after-load 'js
+  '(define-key js-mode-map (kbd "C-c b") 'web-beautify-js))
+
+(eval-after-load 'js
+  '(add-hook 'js-mode-hook
+             (lambda ()
+               (add-hook 'before-save-hook 'web-beautify-js-buffer t t))))
+
+
+
+;; This bit should be checked out, path might change with npm
+
+(add-to-list 'load-path "/home/ubuntu/.nvm/versions/node/v0.12.4/lib/node_modules/tern/emacs/")
+(autoload 'tern-mode "tern.el" nil t)
+
+(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+
+(eval-after-load 'tern
+   '(progn
+      (require 'tern-auto-complete)
+      (tern-ac-setup)))
+
+
+(add-hook 'js-mode-hook (lambda () (auto-complete-mode t)))
