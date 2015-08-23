@@ -36,45 +36,45 @@
                            (local-set-key "\C-c\C-u" 'whitespace-clean-and-compile)
                            ))
 
-(defun node-repl-comint-preoutput-filter (output)
-  "This function fixes the escape issue with node-repl in js-comint.el.
-  Heavily adapted from http://www.squidoo.com/emacs-comint (which
-  is in emacs/misc/comint_ticker)
+;;(defun node-repl-comint-preoutput-filter (output)
+;;  "This function fixes the escape issue with node-repl in js-comint.el.
+;;  Heavily adapted from http://www.squidoo.com/emacs-comint (which
+;; is in emacs/misc/comint_ticker)
 
-  Basically, by adding this preoutput filter to the
-  comint-preoutput-filter-functions list we take the output of
-  comint in a *js* buffer and do a find/replace to replace the
-  ANSI escape noise with a reasonable prompt.
-"
-(if (equal (buffer-name) "*js*")
-    (progn
+;;  Basically, by adding this preoutput filter to the
+;;  comint-preoutput-filter-functions list we take the output of
+;;  comint in a *js* buffer and do a find/replace to replace the
+;;  ANSI escape noise with a reasonable prompt.
+;;"
+;;(if (equal (buffer-name) "*js*")
+;;    (progn
       ;; Uncomment these to debug the IO of the node process
       ;; (setq js-node-output output)
       ;; (message (concat "\n----------\n" output "\n----------\n"))
 
       ;; Replaced ^ with \^ to indicate that doesn't have to be
       ;; at start of line
-      (replace-regexp-in-string
-       "\\\[0K" ""
-       (replace-regexp-in-string
-        "\\\[1G" ""
-       (replace-regexp-in-string
-        "\\\[0J" ""
-       (replace-regexp-in-string
-        "\\\[3G" ""
-       (replace-regexp-in-string
-        "\\\[0G" ""
-       (replace-regexp-in-string
-        "\\[2C" ""
-       (replace-regexp-in-string
-        "\\[0K" ""
-        (replace-regexp-in-string
-         "
-" "" output))))))))
-      )
-    output
-  )
-)
+;;      (replace-regexp-in-string
+;;       "\\\[0K" ""
+;;       (replace-regexp-in-string
+;;        "\\\[1G" ""
+;;       (replace-regexp-in-string
+;;        "\\\[0J" ""
+;;       (replace-regexp-in-string
+;;        "\\\[3G" ""
+;;       (replace-regexp-in-string
+;;        "\\\[0G" ""
+;;       (replace-regexp-in-string
+;;        "\\[2C" ""
+;;       (replace-regexp-in-string
+;;       "\\[0K" ""
+;;        (replace-regexp-in-string
+;;        "
+;;" "" output))))))))
+;;      )
+;;    output
+;;  )
+;;)
 
-(add-hook 'comint-preoutput-filter-functions 'node-repl-comint-preoutput-filter)
-(add-hook 'comint-output-filter-functions 'node-repl-comint-preoutput-filter)
+;;(add-hook 'comint-preoutput-filter-functions 'node-repl-comint-preoutput-filter)
+;;(add-hook 'comint-output-filter-functions 'node-repl-comint-preoutput-filter)
