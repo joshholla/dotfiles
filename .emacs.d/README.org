@@ -1,0 +1,20 @@
+* Josh .emacs.d
+My emacs config.
+** Notes
+- Inspired by the excellent config at https://github.com/CSRaghunandan/.emacs.d
+- Ivy as the preferred completion frontend for emacs.
+- =use-package= for faster load times and loading packages only when necessary.
+- Certain packages will only work if you have the associated applications installed
+  - =ripgrep= -> as an alternative for grep and to grep an entire project
+  - =aspell= -> for spellcheck
+  - =jedi= -> for autocompletion and jump to def in python files
+  - =tern= -> for autocompletion and jump to def in javascript files
+  - =LanguageTools= -> check for grammar mistakes
+  - =coreutils= -> only if you’re on macOS. Needed by =dired=
+  - =fortune= -> for getting a random quote in *scratch* buffer
+- Install a custom built =Iosevka= font from [[https://github.com/hlissner/doom-emacs/files/2162978/fonts.tar.gz][here]]
+- If you are using built from master/trunk, use the =develop= branch for
+  [[https://github.com/dieggsy/eterm-256color/blob/devel/eterm-256color.el][eterm-256color.el]] otherwise you will run into errors when invoking =multi-term=
+
+* Feedback
+Raise an issue!
