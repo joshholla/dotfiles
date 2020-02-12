@@ -1,5 +1,12 @@
 dotfiles.git
 ============
+
+Files that I use to get by. (for the most part). Based on the excellent
+introduction to all things cool over at http://github.com/startup-class/setup
+
+
+
+## Original comments
 Clone and run this on a new EC2 instance running Ubuntu 12.04.2 LTS to
 configure your `bash` and `emacs` development environment as follows:
 [This is going to be edited to my liking]
