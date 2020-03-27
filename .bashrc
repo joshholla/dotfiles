@@ -1,50 +1,3 @@
-# .bashrc file
-# Based on the excellent introduction by Balaji S. Srinivasan
-# (balajis@stanford.edu)
-#
-# (Modified for my own needs and wants)
-#
-# Concepts:
-#
-#    1) .bashrc is the *non-login* config for bash, run in scripts and after
-#        first connection.
-#    2) .bash_profile is the *login* config for bash, launched upon first connection.
-#    3) .bash_profile imports .bashrc, but not vice versa.
-#    4) .bashrc imports .bashrc_custom, which can be used to override
-#        variables specified here.
-#
-# When using GNU screen:
-#
-#    1) .bash_profile is loaded the first time you login, and should be used
-#       only for paths and environmental settings
-
-#    2) .bashrc is loaded in each subsequent screen, and should be used for
-#       aliases and things like writing to .bash_eternal_history (see below)
-#
-# Do 'man bashrc' for the long version or see here:
-# http://en.wikipedia.org/wiki/Bash#Startup_scripts
-#
-# When Bash starts, it executes the commands in a variety of different scripts.
-#
-#   1) When Bash is invoked as an interactive login shell, it first reads
-#      and executes commands from the file /etc/profile, if that file
-#      exists. After reading that file, it looks for ~/.bash_profile,
-#      ~/.bash_login, and ~/.profile, in that order, and reads and executes
-#      commands from the first one that exists and is readable.
-#
-#   2) When a login shell exits, Bash reads and executes commands from the
-#      file ~/.bash_logout, if it exists.
-#
-#   3) When an interactive shell that is not a login shell is started
-#      (e.g. a GNU screen session), Bash reads and executes commands from
-#      ~/.bashrc, if that file exists. This may be inhibited by using the
-#      --norc option. The --rcfile file option will force Bash to read and
-#      execute commands from file instead of ~/.bashrc.
-
-
-
-
-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -137,6 +90,21 @@ unset __conda_setup
 
 if [ "$HOSTNAME" = "malvinas" ]; then
     #echo "on Malvinas"
+    __conda_setup="$('/localdata/joshua/.miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/localdata/joshua/.miniconda3/etc/profile.d/conda.sh" ]; then
+            . "/localdata/joshua/.miniconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="/localdata/joshua/.miniconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+fi
+
+if [ "$HOSTNAME" = "atlantis" ]; then
+    #echo "on atlantis"
     __conda_setup="$('/localdata/joshua/.miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
     if [ $? -eq 0 ]; then
         eval "$__conda_setup"
@@ -323,16 +291,16 @@ command -v rlwrap >/dev/null 2>&1 || { echo >&2 "Install rlwrap to use node: sud
 
 # To try and fix the annoying erase commands:
 alias ^H='stty erase ^H'
-alias ^?='stty erase ^?' # this could be stty errase
-
-
-
-## Define any user-specific variables you want here.
-source ~/.bashrc_custom
-
+alias ^?='stty erase ^?'
 
 # To get the Jupyter notebook running with no browser, for later consumption
 alias jupyterN='jupyter notebook --no-browser --port=8889'
 
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/adaptation/joshua/.mujoco/mujoco200/bin
+
+export MUJOCO_PY_MJPRO_PATH=/home/adaptation/joshua/.mujoco/mujoco200
+export MUJOCO_PY_MJKEY_PATH=/localdata/joshua/mjkey.txt
+export MUJOCO_KEY_PATH=/localdata/joshua/mjkey.txt
+
+conda activate scratch
